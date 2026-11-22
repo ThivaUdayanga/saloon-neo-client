@@ -12,10 +12,10 @@ const prisma = new PrismaClient({
 
 const userData: Prisma.UserCreateInput[] = [
   {
-    email : "admin@saloon-neo.lk",
-    firstName : "Admin",
-    lastName : "Admin",
-    password : "$2y$10$bGN8aJ2VoUDGWOqg.pzfye1qBMZLGC3B.azcjPkvCOjIq/cdlvO2O",
+    email : "admin@test.lk",
+    firstName : "Admintest",
+    lastName : "Admintest",
+    password : "$2a$12$jt5cxB1Uh6a9UG5VGpAsG.nRL4QPbUfT1ywA8kb1W4ftAbsydVVQO", //abc
     privileges : [],
     role : "ADMIN",
   }
