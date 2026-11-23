@@ -14,6 +14,20 @@ export async function POST(request: NextRequest) {
         return NextResponse.json(
             {
                 message : "Email is required"
+            },
+            {
+                status : 422
+            }
+        )
+    }
+
+    if(body.password == null){
+        return NextResponse.json(
+            {
+                message : "Password is required"
+            },
+            {
+                status : 422
             }
         )
     }
@@ -32,9 +46,23 @@ export async function POST(request: NextRequest) {
         return NextResponse.json(
             {
                 message : "User not found"
+            },
+            {
+                status : 404
             }
         )
     } 
+
+    if(user.status != "ACTIVE"){
+        return NextResponse.json(
+            {
+                message : "User is not active"
+            },
+            {
+                status : 403
+            }
+        )
+    }
 
     const isPasswordValid = await compare(body.password, user.password)
 
@@ -44,6 +72,17 @@ export async function POST(request: NextRequest) {
         //         message : "Login successful"
         //     }
         // )
+
+        await prisma.user.update(
+            {
+                where : {
+                    id : user.id
+                },
+                data : {
+                    lastLogin : new Date()
+                }
+            }
+        )
 
         const secretText = process.env.JOSE_SECRET_KEY 
         const secret = new TextEncoder().encode(secretText)
@@ -65,6 +104,9 @@ export async function POST(request: NextRequest) {
                 message : "Login successful",
                 role : user.role,
                 privileges : user.privileges
+            },
+            {
+                status : 200
             }
         )
 
@@ -85,6 +127,9 @@ export async function POST(request: NextRequest) {
         return NextResponse.json(
             {
                 message : "Invalid password"
+            },
+            {
+                status : 401
             }
         )
     }
