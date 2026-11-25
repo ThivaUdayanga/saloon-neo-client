@@ -24,4 +24,5 @@ model User {
   createdAt DateTime @default(now())
   lastLogin DateTime?
   privileges String[] @default([]) // "users:add","users:edit","users:read"
+  profileImage String @default("https://res.cloudinary.com/dxjzq6f0g/image/upload/v1690911685/saloon-neo/profile-images/default-profile-image.png")
 }// Gender, email verified, phone verified
